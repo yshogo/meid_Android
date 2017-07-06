@@ -1,14 +1,109 @@
 package com.example.shogoyamada.meid.activity
 
+import android.content.Intent
+import android.graphics.Paint
 import android.os.Bundle
-
+import android.widget.TextView
+import android.widget.Toast
 import com.example.shogoyamada.meid.R
 import com.example.shogoyamada.meid.common.BaseActivity
+import com.google.android.gms.auth.api.Auth
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.api.GoogleApiClient
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
 
-class LoginActivity : BaseActivity() {
+/**
+ * ログイン処理
+ */
+class LoginActivity : BaseActivity(), GoogleApiClient.OnConnectionFailedListener {
+
+    private val RC_SIGN_IN = 9001
+    private var mAuth: FirebaseAuth? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+
+        val loginText = findViewById(R.id.login) as TextView
+        loginText.paintFlags =  Paint.UNDERLINE_TEXT_FLAG
+        loginText.setOnClickListener { view ->
+            // TODO ここにログイン処理を書く
+            Toast.makeText(this,"押されました", Toast.LENGTH_SHORT).show()
+        }
+
+        //グーグルログイン処理
+        googleLogin()
+
     }
+
+    /**
+     * グーグルログイン処理
+     */
+    private fun googleLogin(){
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build()
+
+        val mGoogleApiClient = GoogleApiClient.Builder(this)
+                .enableAutoManage(this, this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build()
+
+        val googleButton = findViewById(R.id.googleLoginButton)
+        googleButton.setOnClickListener { view ->
+            val signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient)
+            startActivity(signInIntent)
+        }
+
+        mAuth = FirebaseAuth.getInstance()
+    }
+
+
+    /**
+     * 接続失敗
+     */
+    override fun onConnectionFailed(connectionResult: ConnectionResult) {
+        Toast.makeText(this, "Google Play Services error.", Toast.LENGTH_SHORT).show()
+    }
+
+    /**
+     * 接続成功後のリスナー
+     */
+    public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == RC_SIGN_IN) {
+            val result = Auth.GoogleSignInApi.getSignInResultFromIntent(data)
+            if (result.isSuccess) {
+                val account:GoogleSignInAccount? = result.signInAccount
+                if (account != null) firebaseAuthWithGoogle(account)
+            } else {
+                println(result.status)
+                Toast.makeText(this@LoginActivity, "Error", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    /**
+     * グーグルログイン処理
+     */
+    private fun firebaseAuthWithGoogle(acct : GoogleSignInAccount){
+        val credenttial = GoogleAuthProvider.getCredential(acct.idToken, null)
+
+        mAuth!!.signInWithCredential(credenttial)
+                .addOnCompleteListener { task ->
+                    if(task.isSuccessful){
+                        val intent = Intent(this,MyPageActivity::class.java)
+                        startActivity(intent)
+                    }else{
+                        Toast.makeText(this,task.exception.toString(), Toast.LENGTH_LONG).show()
+                    }
+                }
+
+    }
+
 }
