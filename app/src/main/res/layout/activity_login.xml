@@ -6,4 +6,13 @@
     android:layout_height="match_parent"
     tools:context="com.example.shogoyamada.meid.activity.LoginActivity">
 
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Login by Google"
+        android:id="@+id/googleLoginButton"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
 </android.support.constraint.ConstraintLayout>
