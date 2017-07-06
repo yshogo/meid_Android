@@ -1,5 +1,6 @@
 package com.example.shogoyamada.meid.activity
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Paint
 import android.os.Bundle
@@ -7,6 +8,7 @@ import android.widget.TextView
 import android.widget.Toast
 import com.example.shogoyamada.meid.R
 import com.example.shogoyamada.meid.common.BaseActivity
+import com.example.shogoyamada.meid.models.UserFormModel
 import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -22,11 +24,14 @@ class LoginActivity : BaseActivity(), GoogleApiClient.OnConnectionFailedListener
 
     private val RC_SIGN_IN = 9001
     private var mAuth: FirebaseAuth? = null
+    private val mFirebaseAuth: FirebaseAuth? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
+        //loginボタンに下線を作成
         val loginText = findViewById(R.id.login) as TextView
         loginText.paintFlags =  Paint.UNDERLINE_TEXT_FLAG
         loginText.setOnClickListener { view ->
@@ -34,9 +39,47 @@ class LoginActivity : BaseActivity(), GoogleApiClient.OnConnectionFailedListener
             Toast.makeText(this,"押されました", Toast.LENGTH_SHORT).show()
         }
 
+        //新規登録
+        normalSubmit()
+
         //グーグルログイン処理
         googleLogin()
 
+    }
+
+    /**
+     * 新規登録
+     */
+    private fun normalSubmit(){
+
+        val submitButton = findViewById(R.id.submit)
+        submitButton.setOnClickListener { view ->
+            val userFormModel = getFormData()
+
+            mFirebaseAuth!!.createUserWithEmailAndPassword(userFormModel.email!!, userFormModel.password!!)
+                    .addOnCompleteListener(this, { task ->
+                        if (task.isSuccessful()) {
+                            val intent = Intent(this, MyPageActivity::class.java)
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                            startActivity(intent)
+                        } else {
+                            val builder = AlertDialog.Builder(this)
+                            builder.setMessage(task.exception.toString())
+                                    .setTitle("エラーが発生")
+                                    .setPositiveButton(android.R.string.ok, null)
+                            val dialog = builder.create()
+                            dialog.show()
+                        }
+                    })
+        }
+    }
+
+    /**
+     * 入力データを取得する
+     */
+    private fun getFormData() : UserFormModel{
+        return UserFormModel(findViewById(R.id.name_text).toString(),findViewById(R.id.email_text).toString(),findViewById(R.id.password_text).toString())
     }
 
     /**
