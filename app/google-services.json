@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "502585901963",
+    "firebase_url": "https://meide-f7ba3.firebaseio.com",
+    "project_id": "meide-f7ba3",
+    "storage_bucket": "meide-f7ba3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:502585901963:android:13e23445d45f6ad3",
+        "android_client_info": {
+          "package_name": "com.example.shogoyamada.meid"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "502585901963-14lo41sl4lc56dj8oomp21mgncncqpth.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDXBl54JgpCH42APsKSkvSCxE37A6cRE0o"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
