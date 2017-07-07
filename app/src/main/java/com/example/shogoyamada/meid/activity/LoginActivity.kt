@@ -1,6 +1,7 @@
 package com.example.shogoyamada.meid.activity
 
 import android.app.AlertDialog
+import android.app.ProgressDialog
 import android.content.Intent
 import android.graphics.Paint
 import android.os.Bundle
@@ -26,10 +27,14 @@ class LoginActivity : BaseActivity(), GoogleApiClient.OnConnectionFailedListener
     private var mAuth: FirebaseAuth? = null
     private val mFirebaseAuth: FirebaseAuth? = null
 
+    private var progressDialog: ProgressDialog? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+
+        progressDialog = ProgressDialog(this)
 
         //loginボタンに下線を作成
         val loginText = findViewById(R.id.login) as TextView
@@ -103,6 +108,8 @@ class LoginActivity : BaseActivity(), GoogleApiClient.OnConnectionFailedListener
 
         val googleButton = findViewById(R.id.googleLoginButton)
         googleButton.setOnClickListener { view ->
+
+            progressDialog!!.show()
             val signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient)
             startActivityForResult(signInIntent,RC_SIGN_IN)
         }
@@ -115,6 +122,7 @@ class LoginActivity : BaseActivity(), GoogleApiClient.OnConnectionFailedListener
      * 接続失敗
      */
     override fun onConnectionFailed(connectionResult: ConnectionResult) {
+        progressDialog!!.dismiss()
         Toast.makeText(this, "Google Play Services error.", Toast.LENGTH_SHORT).show()
     }
 
@@ -144,6 +152,9 @@ class LoginActivity : BaseActivity(), GoogleApiClient.OnConnectionFailedListener
 
         mAuth!!.signInWithCredential(credenttial)
                 .addOnCompleteListener { task ->
+
+                    progressDialog!!.dismiss()
+
                     if(task.isSuccessful){
                         val intent = Intent(this,MyPageActivity::class.java)
                         startActivity(intent)
