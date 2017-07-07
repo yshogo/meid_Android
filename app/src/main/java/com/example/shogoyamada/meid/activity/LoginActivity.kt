@@ -9,6 +9,7 @@ import android.widget.TextView
 import android.widget.Toast
 import com.example.shogoyamada.meid.R
 import com.example.shogoyamada.meid.common.BaseActivity
+import com.example.shogoyamada.meid.common.PrefKey
 import com.example.shogoyamada.meid.models.UserFormModel
 import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -42,6 +43,11 @@ class LoginActivity : BaseActivity(), GoogleApiClient.OnConnectionFailedListener
         loginText.setOnClickListener { view ->
             // TODO ここにログイン処理を書く
             Toast.makeText(this,"押されました", Toast.LENGTH_SHORT).show()
+        }
+
+        if(PrefKey.getPref(this, "email") !== "error"){
+            transitionMyPage()
+            return
         }
 
         //新規登録
@@ -156,13 +162,22 @@ class LoginActivity : BaseActivity(), GoogleApiClient.OnConnectionFailedListener
                     progressDialog!!.dismiss()
 
                     if(task.isSuccessful){
-                        val intent = Intent(this,MyPageActivity::class.java)
-                        startActivity(intent)
+                        PrefKey.setPref(this,"email", acct.email)
+                        transitionMyPage()
                     }else{
                         Toast.makeText(this,task.exception.toString(), Toast.LENGTH_LONG).show()
                     }
                 }
 
     }
+
+    /**
+     * マイページに画面遷移する
+     */
+    private fun transitionMyPage(){
+        val intent = Intent(this,MyPageActivity::class.java)
+        startActivity(intent)
+    }
+
 
 }
