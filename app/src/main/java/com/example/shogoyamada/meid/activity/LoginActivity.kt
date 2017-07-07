@@ -58,7 +58,7 @@ class LoginActivity : BaseActivity(), GoogleApiClient.OnConnectionFailedListener
 
             mFirebaseAuth!!.createUserWithEmailAndPassword(userFormModel.email!!, userFormModel.password!!)
                     .addOnCompleteListener(this, { task ->
-                        if (task.isSuccessful()) {
+                        if (task.isSuccessful) {
                             val intent = Intent(this, MyPageActivity::class.java)
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
@@ -79,7 +79,12 @@ class LoginActivity : BaseActivity(), GoogleApiClient.OnConnectionFailedListener
      * 入力データを取得する
      */
     private fun getFormData() : UserFormModel{
-        return UserFormModel(findViewById(R.id.name_text).toString(),findViewById(R.id.email_text).toString(),findViewById(R.id.password_text).toString())
+
+        val name = findViewById(R.id.name_text).toString()
+        val email = findViewById(R.id.email_text).toString()
+        val password = findViewById(R.id.password_text).toString()
+
+        return UserFormModel(name,email,password)
     }
 
     /**
@@ -99,7 +104,7 @@ class LoginActivity : BaseActivity(), GoogleApiClient.OnConnectionFailedListener
         val googleButton = findViewById(R.id.googleLoginButton)
         googleButton.setOnClickListener { view ->
             val signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient)
-            startActivity(signInIntent)
+            startActivityForResult(signInIntent,RC_SIGN_IN)
         }
 
         mAuth = FirebaseAuth.getInstance()
