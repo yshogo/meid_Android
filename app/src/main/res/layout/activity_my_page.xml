@@ -26,14 +26,14 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v4.widget.NestedScrollView
+    <ListView
+        android:id="@+id/post_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:layout_marginTop="40dp"
+        >
 
-        <!--ここにコンテンツの追加する-->
-
-    </android.support.v4.widget.NestedScrollView>
+    </ListView>
 
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -50,22 +50,6 @@
             app:backgroundTint="#8ace36" />
 
     </FrameLayout>
-
-
-    <android.support.v4.widget.DrawerLayout
-        android:id="@+id/drawer_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
-
-        <android.support.design.widget.NavigationView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
-            app:headerLayout="@layout/view_drawer_header"
-            app:menu="@menu/drawer" />
-
-    </android.support.v4.widget.DrawerLayout>
 
 
 </android.support.constraint.ConstraintLayout>

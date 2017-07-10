@@ -1,9 +1,8 @@
 package com.example.shogoyamada.meid.models
 
 /**
- * Created by shogo.yamada on 2017/07/06.
+ * ユーザー情報を管理する
  */
-
 class UserFormModel {
 
     init { }

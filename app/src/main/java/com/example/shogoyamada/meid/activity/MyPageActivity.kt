@@ -1,47 +1,43 @@
 package com.example.shogoyamada.meid.activity
 
 import android.os.Bundle
-import android.support.v4.widget.DrawerLayout
-import android.support.v7.app.ActionBarDrawerToggle
+import android.widget.ListView
 import com.example.shogoyamada.meid.R
+import com.example.shogoyamada.meid.adapeters.UserListViewAdapter
 import com.example.shogoyamada.meid.common.BaseActivity
-
+import com.example.shogoyamada.meid.models.ArticleCellModel
+import java.util.*
 
 
 class MyPageActivity : BaseActivity() {
-
-
-    private var toggle: ActionBarDrawerToggle? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_page)
 
-        //ツールバーの作成
-        createToolbar()
+        initListAdapter()
     }
 
-    /**
-     * ツールバーを作成
-     */
-    private fun createToolbar(){
-        //ツールバーを初期化
-        val toolbar = findViewById(R.id.tool_bar) as android.support.v7.widget.Toolbar
-        setSupportActionBar(toolbar)
+    private fun initListAdapter(){
 
-        //トグルボタンを作成
-        val drawerLayout = findViewById(R.id.drawer_layout) as DrawerLayout
-        toggle = ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.app_name, R.string.app_name)
-        toggle!!.drawerArrowDrawable //ドロワーの使うか使わないかのオンオフ
-        drawerLayout.addDrawerListener(toggle!!)
-    }
+        // TODO 借りでテストデータの作成
+        val articleList = ArrayList<ArticleCellModel>()
+        var i = 0
 
-    /**
-     * レイアウト生成後にtoolbarを生成する
-     */
-    override fun onPostCreate(savedInstanceState: Bundle?) {
-        super.onPostCreate(savedInstanceState)
+        while (i <= 10){
+            val model = ArticleCellModel()
+            model.title = "これはタイトルです" + i
+            model.date = "金曜日"
+            model.article = "ここには" + i + "番目の記事を表示しています"
+            articleList.add(model)
 
-        toggle!!.syncState()
+            i++
+        }
+
+        val listAdapter = UserListViewAdapter(this,R.layout.view_listview_cell,articleList)
+
+        val listView = findViewById(R.id.post_list) as ListView
+        listView.adapter = listAdapter
+
     }
 }
