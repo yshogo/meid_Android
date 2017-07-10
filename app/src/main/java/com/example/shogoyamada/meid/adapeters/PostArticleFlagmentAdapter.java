@@ -24,4 +24,14 @@ public class PostArticleFlagmentAdapter extends FragmentPagerAdapter {
     public int getCount() {
         return 2;
     }
+
+    @Override
+    public CharSequence getPageTitle(int position){
+
+        if(position == 1){
+            return "Preview";
+        }else{
+            return "Post";
+        }
+    }
 }

@@ -15,6 +15,14 @@ public class PostArticleActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_article);
 
+        initFlagment();
+
+    }
+
+    /**
+     * フラグメントの初期設定
+     */
+    private void initFlagment(){
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager);
 
@@ -22,4 +30,5 @@ public class PostArticleActivity extends AppCompatActivity {
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
     }
+
 }
