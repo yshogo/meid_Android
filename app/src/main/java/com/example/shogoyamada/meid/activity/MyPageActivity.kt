@@ -1,7 +1,9 @@
 package com.example.shogoyamada.meid.activity
 
 import android.os.Bundle
+import android.support.design.widget.FloatingActionButton
 import android.widget.ListView
+import android.widget.Toast
 import com.example.shogoyamada.meid.R
 import com.example.shogoyamada.meid.adapeters.UserListViewAdapter
 import com.example.shogoyamada.meid.common.BaseActivity
@@ -16,8 +18,12 @@ class MyPageActivity : BaseActivity() {
         setContentView(R.layout.activity_my_page)
 
         initListAdapter()
+        initNewArticleButtonEvent()
     }
 
+    /**
+     * 画面に表示するリストの初期化
+     */
     private fun initListAdapter(){
 
         // TODO 借りでテストデータの作成
@@ -39,5 +45,16 @@ class MyPageActivity : BaseActivity() {
         val listView = findViewById(R.id.post_list) as ListView
         listView.adapter = listAdapter
 
+    }
+
+    /**
+     * 投稿ボタンのクリックイベント
+     */
+    private fun initNewArticleButtonEvent(){
+        val newArticle = findViewById(R.id.new_article) as FloatingActionButton
+        newArticle.setOnClickListener {
+            view ->
+            Toast.makeText(this,"押せてます", Toast.LENGTH_LONG).show()
+        }
     }
 }
