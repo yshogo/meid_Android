@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.example.shogoyamada.meid.R;
 
@@ -29,6 +30,13 @@ public class PostArticleFragment extends Fragment {
             view = inflater.inflate(R.layout.view_flagment_preview,container,false);
         }else{
             view = inflater.inflate(R.layout.view_flagment_post, container, false);
+
+            Button saveButton = view.findViewById(R.id.save_button);
+            saveButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                }
+            });
         }
 
         return view;

@@ -10,6 +10,7 @@ import android.widget.Toast
 import com.example.shogoyamada.meid.R
 import com.example.shogoyamada.meid.common.BaseActivity
 import com.example.shogoyamada.meid.common.PrefKey
+import com.example.shogoyamada.meid.enums.UserPrefKey
 import com.example.shogoyamada.meid.models.UserFormModel
 import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -162,7 +163,7 @@ class LoginActivity : BaseActivity(), GoogleApiClient.OnConnectionFailedListener
                     progressDialog!!.dismiss()
 
                     if(task.isSuccessful){
-                        PrefKey.setPref(this,"email", acct.email)
+                        PrefKey.setPref(this,UserPrefKey.USER_EMAIL.emailPref, acct.email)
                         transitionMyPage()
                     }else{
                         Toast.makeText(this,task.exception.toString(), Toast.LENGTH_LONG).show()
