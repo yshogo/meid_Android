@@ -17,8 +17,8 @@ public class PostArticleActivity extends AppCompatActivity {
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager);
-        PostArticleFlagmentAdapter adapter =
-                new PostArticleFlagmentAdapter(getSupportFragmentManager());
+
+        PostArticleFlagmentAdapter adapter = new PostArticleFlagmentAdapter(getSupportFragmentManager());
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
     }

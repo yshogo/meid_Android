@@ -14,17 +14,31 @@ import com.example.shogoyamada.meid.R;
 
 public class PostArticleFragment extends Fragment {
 
+    public PostArticleFragment(){}
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.view_flagment_post, container, false);
+        View view;
+
+        Bundle args = getArguments();
+        int position = args.getInt("position");
+
+        if(position == 1){
+            view = inflater.inflate(R.layout.view_flagment_preview,container,false);
+        }else{
+            view = inflater.inflate(R.layout.view_flagment_post, container, false);
+        }
+
         return view;
     }
 
     public static PostArticleFragment newInstance(int position) {
 
         Bundle args = new Bundle();
+
+        args.putInt("position", position);
 
         PostArticleFragment fragment = new PostArticleFragment();
         fragment.setArguments(args);
