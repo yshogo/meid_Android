@@ -1,9 +1,9 @@
 package com.example.shogoyamada.meid.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.widget.ListView
-import android.widget.Toast
 import com.example.shogoyamada.meid.R
 import com.example.shogoyamada.meid.adapeters.UserListViewAdapter
 import com.example.shogoyamada.meid.common.BaseActivity
@@ -54,7 +54,8 @@ class MyPageActivity : BaseActivity() {
         val newArticle = findViewById(R.id.new_article) as FloatingActionButton
         newArticle.setOnClickListener {
             view ->
-            Toast.makeText(this,"押せてます", Toast.LENGTH_LONG).show()
+            val intent = Intent(this,PostArticleActivity::class.java)
+            startActivity(intent)
         }
     }
 }
